@@ -1,0 +1,66 @@
+description: Run poetry export.
+executor: <<parameters.executor>>
+parameters:
+  args:
+    default: ''
+    description: Arguments to send to `poetry export`.
+    type: string
+  checkout:
+    default: false
+    description: Boolean for whether or not to checkout as a first step. Default is false.
+    type: boolean
+  executor:
+    default: python
+    description: The name of custom executor to use.
+    type: executor
+  persist_to_workspace:
+    default: false
+    description: Should this job persist files to a workspace? Defaults to false
+    type: boolean
+  steps_after:
+    default: []
+    description: Optional steps to run after `poetry export`.
+    type: steps
+  steps_before:
+    default: []
+    description: Optional steps to run before `poetry export`.
+    type: steps
+  workspace_path:
+    default: .
+    description: >
+      Path of the workspace to persist to relative to workspace_root. Defaults
+      to '.'
+    type: string
+  workspace_root:
+    default: .
+    description: >
+      Workspace root path that is either an absolute path or a path relative to
+      the working directory. Defaults to '.' (the working directory)
+    type: string
+steps:
+  - when:
+      condition: <<parameters.checkout>>
+      steps:
+        - checkout
+  - unless:
+      condition: <<parameters.checkout>>
+      steps:
+        - attach_workspace:
+            at: <<parameters.workspace_root>>
+  - when:
+      condition: <<parameters.steps_before>>
+      name: poetry - export -> steps_before steps
+      steps: <<parameters.steps_before>>
+  - export:
+      args: <<parameters.args>>
+  - when:
+      condition: <<parameters.steps_after>>
+      name: poetry - export -> steps_after steps
+      steps: <<parameters.steps_after>>
+  - when:
+      condition: <<parameters.persist_to_workspace>>
+      steps:
+        - persist_to_workspace:
+            paths:
+              - <<parameters.workspace_path>>
+            root: <<parameters.workspace_root>>

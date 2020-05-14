@@ -1,0 +1,38 @@
+description: Run poetry publish.
+executor: <<parameters.executor>>
+parameters:
+  args:
+    default: ''
+    description: Arguments to send to `poetry publish` for example -r reponame. (Don't use --build, first build it with the build job.)
+    type: string
+  executor:
+    default: python
+    description: The name of custom executor to use.
+    type: executor
+  steps_after:
+    default: []
+    description: Optional steps to run after `poetry publish`.
+    type: steps
+  steps_before:
+    default: []
+    description: Optional steps to run before `poetry publish`.
+    type: steps
+  workspace_root:
+    default: .
+    description: >
+      Workspace root path that is either an absolute path or a path relative to
+      the working directory. Defaults to '.' (the working directory)
+    type: string
+steps:
+  - attach_workspace:
+      at: <<parameters.workspace_root>>
+  - when:
+      condition: <<parameters.steps_before>>
+      name: poetry - publish -> steps_before steps
+      steps: <<parameters.steps_before>>
+  - publish:
+      args: <<parameters.args>>
+  - when:
+      condition: <<parameters.steps_after>>
+      name: poetry - publish -> steps_after steps
+      steps: <<parameters.steps_after>>

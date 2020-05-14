@@ -1,0 +1,22 @@
+description: >
+  Builds package and publishes to private repo.
+  please read: https://python-poetry.org/docs/repositories/ for possibilities
+usage:
+  version: 2.1
+  orbs:
+    poetry: thomasborgen/python-poetry-orb@1.0.0
+  workflows:
+    publish_to_private_repo:
+      jobs:
+        - poetry/build:
+            checkout: true
+            persist_to_workspace: true
+        - poetry/publish:
+            args: --repository foo
+            steps_before:
+              - poetry/config:
+                  args: repositories.foo https://foo.bar/simple/
+              - poetry/config:
+                  args: http-basic.foo username password
+            requires:
+              - poetry/build

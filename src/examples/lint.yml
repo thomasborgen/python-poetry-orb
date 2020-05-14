@@ -1,0 +1,17 @@
+description: >
+  Install dependencies and run linting
+  # What will this example document?
+  # Descriptions should be short, simple, and clear.
+usage:
+  version: 2.1
+  orbs:
+    poetry: thomasborgen/python-poetry-orb@1.0.0
+  workflows:
+    lint:
+      jobs:
+        - poetry/install
+        - poetry/shell:
+            name: run-linting
+            args: flake8
+            requires:
+              - poetry/install

@@ -1,0 +1,12 @@
+description: >
+  This command publishes the package, previously built with the build command, to the remote repository.
+  To also build in one step add --build
+parameters:
+  args:
+    default: ''
+    description: Arguments to send to `poetry run`.
+    type: string
+steps:
+  - run:
+      command: poetry publish <<parameters.args>>
+      name: Poetry - publish

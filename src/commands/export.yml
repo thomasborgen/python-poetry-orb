@@ -1,0 +1,12 @@
+description: >
+  This command exports the lock file to other formats. (Only the requirements.txt format is currently supported.)
+  ex args: --format requirements.txt --output requirements.txt
+parameters:
+  args:
+    default: ''
+    description: Arguments to send to `poetry export`.
+    type: string
+steps:
+  - run:
+      command: poetry export <<parameters.args>>
+      name: Poetry - export

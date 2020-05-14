@@ -1,0 +1,10 @@
+description: The `config` command allows you to edit poetry config settings and repositories. see https://python-poetry.org/docs/configuration/ for possible args and values
+parameters:
+  args:
+    default: ''
+    description: Arguments to send to `poetry config`.
+    type: string
+steps:
+  - run:
+      command: poetry config <<parameters.args>>
+      name: Poetry - config

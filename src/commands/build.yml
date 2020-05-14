@@ -1,0 +1,10 @@
+description: Builds package with poetry.
+parameters:
+  args:
+    default: ''
+    description: Arguments to send to `poetry build`.
+    type: string
+steps:
+  - run:
+      command: poetry build <<parameters.args>>
+      name: Poetry - build

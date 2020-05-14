@@ -1,0 +1,20 @@
+description: >
+  Builds package and publishes
+  preferably use env variable: POETRY_PYPI_TOKEN_PYPI=my-token
+  or these two:
+  POETRY_HTTP_BASIC_PYPI_USERNAME=username
+  POETRY_HTTP_BASIC_PYPI_PASSWORD=password
+  please read: https://python-poetry.org/docs/repositories/ for possibilities
+usage:
+  version: 2.1
+  orbs:
+    poetry: thomasborgen/python-poetry-orb@1.0.0
+  workflows:
+    publish:
+      jobs:
+        - poetry/build:
+            checkout: true
+            persist_to_workspace: true
+        - poetry/publish:
+            requires:
+              - poetry/build

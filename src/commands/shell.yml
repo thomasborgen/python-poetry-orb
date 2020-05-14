@@ -1,0 +1,10 @@
+description: shell invokes `poetry run` - run command executes the given command inside the project's virtualenv.
+parameters:
+  args:
+    default: ''
+    description: Arguments to send to `poetry run`.
+    type: string
+steps:
+  - run:
+      command: poetry run <<parameters.args>>
+      name: Poetry - shell

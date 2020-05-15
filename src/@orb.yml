@@ -2,7 +2,7 @@ version: 2.1
 
 description: >
   Python Poetry Orb that provides jobs and commands for all poetry commands.
-  It will allow any poetry python projects to easily install/build/publish/run linters, mypy etc.
+  It will allow any poetry python projects to easily install/build/publish/run linters, mypy, publish/install to/from private pypi repos etc.
 
 display:
   home_url: "https://www.github.com/thomasborgen/python-poetry-orb"

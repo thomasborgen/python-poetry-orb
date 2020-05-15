@@ -1,0 +1,5 @@
+description: The check command validates the structure of the `pyproject.toml` file and returns a detailed report if there are any errors.
+steps:
+  - run:
+      command: poetry check
+      name: Poetry - check

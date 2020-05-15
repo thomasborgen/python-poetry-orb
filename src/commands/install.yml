@@ -1,0 +1,25 @@
+description: >
+  The install command reads the pyproject.toml file from the current project, resolves the dependencies, and installs them.
+  If there is a `poetry.lock` file in the current directory, it will use the exact versions from there instead of resolving them.
+  This ensures that everyone using the library will get the same versions of the dependencies.
+parameters:
+  args:
+    default: ''
+    description: Additional arguments to send to `poetry install`.
+    type: string
+
+steps:
+  - restore_cache:
+      keys:
+        - python-dependencies-{{ .Branch }}-{{ checksum "poetry.lock" }}
+        # when lock files changes, use increasingly general patterns to restore cache.
+        # uncomment these lines when we have 'uninstall untracked' option to install cmd in poetry
+        # - python-dependencies-{{ .Branch }}-
+        # - python-dependencies-
+  - run:
+      command: poetry install <<parameters.args>>
+      name: Poetry - install
+  - save_cache:
+      key: python-dependencies-{{ .Branch }}-{{ checksum "poetry.lock" }}
+      paths:
+        - /home/circleci/project/.venv

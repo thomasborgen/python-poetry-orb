@@ -1,0 +1,12 @@
+# How to author Executors: https://circleci.com/docs/2.0/reusing-config/#authoring-reusable-executors
+description: CircleCI python image that includes poetry
+docker:
+  - image: 'circleci/python:<<parameters.tag>>'
+environment:
+  POETRY_CACHE_DIR: /home/circleci/project
+  POETRY_VIRTUALENVS_IN_PROJECT: true
+  POETRY_VIRTUALENVS_PATH: .venv
+parameters:
+  tag:
+    default: latest
+    type: string

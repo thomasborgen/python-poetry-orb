@@ -1,0 +1,20 @@
+description: >
+  Install dependencies from a private repo
+  https://python-poetry.org/docs/repositories/#install-dependencies-from-a-private-repository
+  pyproject.toml must contain a [[tool.poetry.source]] with same name as the call to http-basic.[name] usr/pw
+usage:
+  version: 2.1
+  orbs:
+    poetry: thomasborgen/python-poetry-orb@1.0.0
+  workflows:
+    lint:
+      jobs:
+        - poetry/install:
+            steps_before:
+              - poetry/config:
+                  args: http-basic.foo username password
+        - poetry/publish:
+            args: --repository foo
+            steps_before:
+              - poetry/config:
+                  args: repositories.foo https://foo.bar/simple/
